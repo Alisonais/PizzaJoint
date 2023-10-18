@@ -1,25 +1,65 @@
+import { motion } from 'framer-motion';
 import React from 'react';
+import Svg from './Svg';
 
-const Header = () => {
+function Header() {
+  const title = 'Pizza Joint';
+
+  const h1Container = {
+    hidden: {
+      opacity: 0,
+    },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 1 },
+    },
+  };
+
+  const titleVariants = {
+    hidden: {
+      display: 'none',
+      opacity: 0,
+      x: 30,
+    },
+    show: {
+      display: 'inline-block',
+      opacity: 1,
+      x: 0,
+      transition: {
+        // type: 'tween',
+        // ease: 'easeIn',
+      },
+    },
+  };
+
   return (
     <header>
       <div className="logo">
-        <svg className="pizza-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <path
-            fill="none"
-            d="M40 40 L80 40 C80 40 80 80 40 80 C40 80 0 80 0 40 C0 40 0 0 40 0Z"
-          />
-          <path
-            fill="none"
-            d="M50 30 L50 -10 C50 -10 90 -10 90 30 Z"
-          />
-        </svg>
+        <Svg />
       </div>
-      <div className="title">
-        <h1>Pizza Joint</h1>
-      </div>
+      <motion.div
+        className="title"
+        initial={{ y: -250 }}
+        animate={{ y: -10 }}
+        transition={{ delay: 0.6, type: 'spring', stiffness: 60 }}
+      >
+        <motion.h1
+          variants={h1Container}
+          initial="hidden"
+          animate="show"
+        >
+          {Array.from(title).map((letra, index) => (
+            <motion.span
+              variants={titleVariants}
+              key={index}
+            >
+              {letra === ' ' ? '\u00A0' : letra}
+            </motion.span>
+          ))}
+        </motion.h1>
+      </motion.div>
     </header>
-  )
+  );
 }
 
 export default Header;
